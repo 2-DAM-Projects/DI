@@ -1,66 +1,33 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import PoppinsText from '../font/PoppinsText';
+import React from 'react';
+import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
-  const [activeSlide, setActiveSlide] = useState(0);
-  
-  const carouselItems = [
-    {
-      image: require('../../assets/images/principal.png'),
-      title: 'Track your Active Lifestyle',
-      subtitle: 'Find your way to the perfect body',
-    },
-    {
-      image: require('../../assets/images/principal.png'),
-      title: 'Stay Consistent',
-      subtitle: 'Achieve your fitness goals step by step',
-    },
-    {
-      image: require('../../assets/images/principal.png'),
-      title: 'Push Your Limits',
-      subtitle: 'Challenge yourself every day',
-    }
-  ];
-
-  const renderItem = (props) => {
-    const { item } = props;  // Destructuring seguro
-    if (!item) return null;  // Protección extra
-
-    return (
-      <View style={styles.carouselItem}>
-        <Image source={item.image} style={styles.image} resizeMode="contain" />
-        <PoppinsText style={styles.txt1}>{item.title}</PoppinsText>
-        <PoppinsText style={styles.txt2}>{item.subtitle}</PoppinsText>
-      </View>
-    );
+  const staticItem = {
+    image: require('../../assets/images/principal.png'),
+    title: 'Track your Active Lifestyle',
+    subtitle: 'Find your way to the perfect body',
   };
 
   return (
     <View style={styles.container}>
-      <Carousel
-        data={carouselItems}
-        renderItem={renderItem}
-        sliderWidth={400}
-        itemWidth={400}
-        onSnapToItem={(index) => setActiveSlide(index)}
-        useScrollView={true}
-        layout={'default'}
-      />
-      <Pagination
-        dotsLength={carouselItems.length}
-        activeDotIndex={activeSlide}
-        dotStyle={styles.activeDot}
-        inactiveDotStyle={styles.inactiveDot}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-      />
+      <View style={styles.carouselItem}>
+        <Image source={staticItem.image} style={styles.image} resizeMode="contain" />
+        <Text style={styles.txt1}>{staticItem.title}</Text>
+        <Text style={styles.txt2}>{staticItem.subtitle}</Text>
+      </View>
+
+      {/* Puntos naranjas estáticos */}
+      <View style={styles.paginationDots}>
+        <View style={[styles.dot, styles.activeDot]} />
+        <View style={styles.dot} />
+        <View style={styles.dot} />
+      </View>
+      
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Stadistics')}
       >
-        <PoppinsText style={styles.buttonText}>Get Started</PoppinsText>
+        <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
     </View>
   );
@@ -71,28 +38,39 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
-  },
-  carouselItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 180,
   },
   image: {
-    width: 300,
-    height: 300,
+    width: 1300,
+    height: 500,
+    marginBottom: 30,
   },
   txt1: {
     fontSize: 28,
     fontWeight: 'bold',
     marginVertical: 10,
     textAlign: 'center',
-    fontFamily: 'Poppins-Bold',
   },
   txt2: {
     fontSize: 16,
     marginBottom: 20,
     textAlign: 'center',
-    fontFamily: 'Poppins-Regular',
+  },
+  paginationDots: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 20,
+    justifyContent: 'center',
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#ccc', // Color gris para los puntos inactivos
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: '#FF6600', // Color naranja para el punto activo
   },
   button: {
     backgroundColor: '#000',
@@ -106,18 +84,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: 'Poppins-Bold',
-  },
-  activeDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#FF6600',
-  },
-  inactiveDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#ccc',
   },
 });
